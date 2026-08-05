@@ -20,11 +20,13 @@ the function code itself is unmodified.
 | `WlsToS.m` | `MakeItS` | Convert a wavelength list back to S format. |
 | `GenerateCIEDay.m` | `plot_figure2` | Generate CIE daylight SPDs from correlated colour temperature. |
 | `B_cieday.mat` | `plot_figure2` | CIE daylight basis vectors (S0, S1, S2) consumed by `GenerateCIEDay`. |
+| `GovardovskiiNomogram.m` | `get_rod_mel_ss` | Govardovskii et al. (2000) photopigment absorbance nomogram, used to build the rod and melanopsin fundamentals. |
+| `EnergyToQuanta.m` | `GovardovskiiNomogram` | Convert spectra between energy and quantal units. |
 
-These seven functions form the complete transitive dependency closure of the
-two Psychtoolbox calls that remained in the toolbox (`SplineSpd` in
-`plot_figure1` and `GenerateCIEDay` in `plot_figure2`). No other Psychtoolbox
-functionality is used.
+These functions form the complete transitive dependency closure of the
+Psychtoolbox calls that remained in the toolbox (`SplineSpd` in `plot_figure1`,
+`GenerateCIEDay` in `plot_figure2`, and `GovardovskiiNomogram`/`WlsToS` in
+`get_rod_mel_ss`). No other Psychtoolbox functionality is used.
 
 ## License
 

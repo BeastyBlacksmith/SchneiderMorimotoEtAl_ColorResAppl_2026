@@ -2,8 +2,29 @@
 % run_individual_observer_metrics.m
 % C2 (Reviewer 1, comment 2): propagate the Asano (2016) CIE2006 individual cone
 % fundamentals through PSRM/PSDM to quantify how stable the metrics are across
-% observers. Only L/M/S cones vary per observer; rod & melanopsin use the
-% standard CIE S026 functions.
+% observers.
+%
+% Three observer models are computed and compared for every observer, to test
+% Reviewer 1's point that the (pre-receptoral) lens and macular pigment vary
+% between observers and, being anatomically in front of the retina, their
+% variation is shared ("yoked") across ALL photoreceptors — including rods and
+% melanopsin — even though the rod/ipRGC PHOTOPIGMENTS have no population model:
+%
+%   (A) cones-only  : L/M/S vary (Asano); rod & melanopsin = standard CIE S026.
+%   (B) SST-fixed   : rod & melanopsin reconstructed with the
+%                     SilentSubstitutionToolbox method (Govardovskii nomogram +
+%                     CIE lens/macular; get_rod_mel_ss), held at the standard
+%                     observer (age 32, 0% deviations). Isolates the effect of
+%                     the rod/mel PHOTOPIGMENT model vs (A).
+%   (C) SST-yoked   : as (B) but each observer's pre-receptoral filters — the SAME
+%                     parameters applied to that observer's cones — also modulate
+%                     the rod/melanopsin sensitivities: the lens density (age +
+%                     dlens%) acts on both, and the macular density (field + dmac%)
+%                     on the rod only, because the melanopsin-containing ganglion
+%                     cells lie anterior to the macular pigment.
+%                     (B) vs (C) isolates the effect of yoked pre-receptoral
+%                     individual variation on the rod/melanopsin signals.
+%                     THIS is the model reported as Tables 2 & 3 in the main text.
 %
 % PSRM uses the SAME definition as the manuscript (get_psrm): a spectrum is
 % reproduced if the non-negative least-squares (lsqnonneg) display solution
@@ -29,8 +50,9 @@ NPER = 500;        % observers sampled per field size (2-deg and 10-deg). Total 
 eps  = 0.01;
 
 %% 1. Asano individual cone fundamentals
-out = load_data().asano_observers;
-Tind  = out.T_indiv;                 % 3 x 79 x nObs, dim1 = L, M, S
+out  = load_data().asano_observers;
+Tind = out.T_indiv;                  % 3 x 79 x nObs, dim1 = L, M, S
+meta = out.obs_meta;                 % per-observer params (age, dlens_pct, dmac_pct, field_deg, ...)
 field = out.obs_meta.field_deg;
 idx2  = find(field==2,  NPER, 'first');
 idx10 = find(field==10, NPER, 'first');
@@ -41,7 +63,10 @@ grp = [2*ones(numel(idx2),1); 10*ones(numel(idx10),1)];
 simRad = get_simulated_spectra('Main');
 if size(simRad,1)==391, simRad = simRad(1:5:end,:); end
 ss = get_cies026; T = ss(:,11:end); T(isnan(T))=0; T5 = T(:,1:5:end);
-R_std = T5(4,:); I_std = T5(5,:);
+R_std = T5(4,:); I_std = T5(5,:);      % (A) CIE S026 standard rod / melanopsin
+
+wlB = (390:5:780)';
+[rodF, melF] = get_rod_mel_ss(wlB, 32, 0, 0, 10);   % (B) SST standard-observer rod/mel
 
 %% 3. displays (precompute 5 nm primaries)
 DB = load(fullfile(resDir,'photosimReferenceDatabase_Main.mat'));
@@ -55,43 +80,67 @@ spd3  = cellfun(@(nm) DB.(nm).spd(1:5:end,:), threeP, 'uni', 0);
 % the observer fundamentals, To(:,1:ng), which reproduces the stored Man PSRM.
 spd5p = cellfun(@(nm) DB.(nm).spd(1:5:end,:), fiveP,  'uni', 0);
 
-%% standard-observer baseline (same method) - validates against stored metrics
+%% standard-observer baseline (cones-only) - validates against stored metrics
 [PSRM_std, rodMed_std, melMed_std] = obsMetrics(T5, simRad, spd3, spd5p, eps);
 
-%% 5. loop observers
+%% 5. loop observers (A cones-only / B SST-fixed / C SST-yoked)
 nO = numel(idxObs);
-PSRM = nan(nO,numel(disps)); rodMed = nan(nO,numel(threeP)); melMed = nan(nO,numel(threeP));
+[PSRM_A,PSRM_B,PSRM_C] = deal(nan(nO,numel(disps)));
+[rodMed_A,rodMed_B,rodMed_C] = deal(nan(nO,numel(threeP)));
+[melMed_A,melMed_B,melMed_C] = deal(nan(nO,numel(threeP)));
 tic;
 for ii = 1:nO
     o = idxObs(ii);
-    To = [squeeze(Tind(3,:,o)); squeeze(Tind(2,:,o)); squeeze(Tind(1,:,o)); R_std; I_std]; % rows S,M,L,R,I
-    [PSRM(ii,:), rodMed(ii,:), melMed(ii,:)] = obsMetrics(To, simRad, spd3, spd5p, eps);
+    S = squeeze(Tind(3,:,o)); M = squeeze(Tind(2,:,o)); L = squeeze(Tind(1,:,o)); % rows S,M,L
+
+    % (A) cones only: rod/mel = CIE S026 standard
+    [PSRM_A(ii,:), rodMed_A(ii,:), melMed_A(ii,:)] = obsMetrics([S;M;L;R_std;I_std], simRad, spd3, spd5p, eps);
+
+    % (B) SST rod/mel at standard pre-receptoral (fixed across observers)
+    [PSRM_B(ii,:), rodMed_B(ii,:), melMed_B(ii,:)] = obsMetrics([S;M;L;rodF;melF],  simRad, spd3, spd5p, eps);
+
+    % (C) SST rod/mel with THIS observer's yoked lens (age+dlens%) & macular (field+dmac%)
+    [rodY, melY] = get_rod_mel_ss(wlB, meta.age(o), meta.dlens_pct(o), meta.dmac_pct(o), meta.field_deg(o));
+    [PSRM_C(ii,:), rodMed_C(ii,:), melMed_C(ii,:)] = obsMetrics([S;M;L;rodY;melY],  simRad, spd3, spd5p, eps);
+
     if mod(ii,50)==0, fprintf('  ...%d/%d (%.0fs)\n', ii, nO, toc); end
 end
-fprintf('Computed %d observers in %.1f s\n', nO, toc);
+fprintf('Computed %d observers x 3 models in %.1f s\n', nO, toc);
 
-%% 6. report
-is2 = grp==2; is10 = grp==10;
-std0 = load(fullfile(resDir,'photosimMetrics_ReproduceLMS_Main_Inf.mat'), disps{:});
-% Inter-observer variability reported as mean +/- 1 SD across ALL observers
-% (the 2-deg and 10-deg samples are pooled; they behave essentially the same).
-fprintf('\n=== PSRM (%%): mean +/- 1 SD across all %d observers (2deg & 10deg pooled) ===\n', 2*NPER);
-fprintf('%-6s %8s %8s   %s\n','disp','getDist','std*','mean +/- 1SD');
+% Tables 2 & 3 of the manuscript report the SST-yoked model, so the yoked arrays
+% carry the plain names used by display_individual_observer_vals.
+PSRM = PSRM_C; rodMed = rodMed_C; melMed = melMed_C;
+
+%% 6. report - inter-observer spread across the three models
+fprintf('\n=== PSRM (%%): mean +/- 1 SD across all %d observers ===\n', 2*NPER);
+fprintf('%-6s | %-14s | %-14s | %-14s\n','disp','(A) cones-only','(B) SST-fixed','(C) SST-yoked');
 for j=1:numel(disps)
-    a = PSRM(:,j);
-    fprintf('%-6s %8.2f %8.2f   %6.2f +/- %4.2f\n', disps{j}, ...
-        std0.(disps{j}).realworldReproductionMetric, PSRM_std(j), mean(a), std(a));
+    fprintf('%-6s | %6.2f +/- %4.2f | %6.2f +/- %4.2f | %6.2f +/- %4.2f\n', disps{j}, ...
+        mean(PSRM_A(:,j)),std(PSRM_A(:,j)), mean(PSRM_B(:,j)),std(PSRM_B(:,j)), mean(PSRM_C(:,j)),std(PSRM_C(:,j)));
 end
-fprintf('\n=== median PSDM (%%): mean +/- 1 SD across all %d observers (3-primary displays) ===\n', 2*NPER);
-fprintf('%-4s | %22s | %22s\n','disp','rod median (std / mean+/-SD)','mel median (std / mean+/-SD)');
+fprintf('\n=== PSRM 5-95%% range: (A) / (B) / (C) ===\n');
+for j=1:numel(disps)
+    fprintf('%-6s | %5.1f-%5.1f | %5.1f-%5.1f | %5.1f-%5.1f\n', disps{j}, ...
+        prctile(PSRM_A(:,j),5),prctile(PSRM_A(:,j),95), ...
+        prctile(PSRM_B(:,j),5),prctile(PSRM_B(:,j),95), ...
+        prctile(PSRM_C(:,j),5),prctile(PSRM_C(:,j),95));
+end
+fprintf('\n=== median PSDM (%%) mean +/- 1 SD (3-primary): (A) / (B) / (C) ===\n');
 for j=1:numel(threeP)
-    fprintf('%-4s | %6.2f / %6.2f +/- %4.2f | %6.2f / %6.2f +/- %4.2f\n', threeP{j}, ...
-        rodMed_std(j), mean(rodMed(:,j)), std(rodMed(:,j)), ...
-        melMed_std(j), mean(melMed(:,j)), std(melMed(:,j)));
+    fprintf('%-4s rod | %6.2f+/-%4.2f | %6.2f+/-%4.2f | %6.2f+/-%4.2f\n', threeP{j}, ...
+        mean(rodMed_A(:,j)),std(rodMed_A(:,j)), mean(rodMed_B(:,j)),std(rodMed_B(:,j)), mean(rodMed_C(:,j)),std(rodMed_C(:,j)));
+    fprintf('%-4s mel | %6.2f+/-%4.2f | %6.2f+/-%4.2f | %6.2f+/-%4.2f\n', threeP{j}, ...
+        mean(melMed_A(:,j)),std(melMed_A(:,j)), mean(melMed_B(:,j)),std(melMed_B(:,j)), mean(melMed_C(:,j)),std(melMed_C(:,j)));
 end
-save(fullfile(resDir,'individualObserverMetrics.mat'),'PSRM','rodMed','melMed','grp','idxObs', ...
-    'disps','threeP','fiveP','PSRM_std','rodMed_std','melMed_std','NPER');
-fprintf('\nSaved results/individualObserverMetrics.mat (NPER=%d)\n', NPER);
+
+save(fullfile(resDir,'individualObserverMetrics.mat'), ...
+    'PSRM','rodMed','melMed', ...                              % model C (= main-text Tables 2 & 3)
+    'PSRM_A','rodMed_A','melMed_A', ...                        % cones-only
+    'PSRM_B','rodMed_B','melMed_B', ...                        % SST-fixed
+    'PSRM_C','rodMed_C','melMed_C', ...                        % SST-yoked (pre-receptoral variation)
+    'grp','idxObs','disps','threeP','fiveP', ...
+    'PSRM_std','rodMed_std','melMed_std','NPER');
+fprintf('\nSaved results/individualObserverMetrics.mat (NPER=%d; models A/B/C)\n', NPER);
 
 %% ---- local functions ----
 function [psrmRow, rodMedRow, melMedRow] = obsMetrics(To, simRad, spd3, spd5p, eps)
