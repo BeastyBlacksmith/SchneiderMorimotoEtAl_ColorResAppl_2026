@@ -1,0 +1,245 @@
+---
+format:
+  pdf:
+    toc: false
+    include-in-header: codecheck-preamble.sty
+engine: knitr
+---
+
+```{r rsetup,eval=TRUE,include=FALSE}
+require("codecheck")
+require("knitr")
+require("rprojroot")
+require("yaml")
+require("xtable")
+require("tibble")
+require("readr")
+options(width = 60)
+opts_chunk$set(cache = FALSE)
+
+root <- find_root("codecheck.yml")
+```
+
+```{r check_sibling_template, eval=TRUE, include=FALSE}
+## Warn if codecheck.Rmd is also present next to this file - having both
+## makes it unclear which one is the canonical certificate source.
+if (file.exists(file.path(root, "codecheck", "codecheck.Rmd"))) {
+  warning("Both codecheck.Rmd and codecheck.qmd are present in codecheck/ - ",
+          "remove one so the certificate source is unambiguous.")
+}
+```
+
+```{r validate_yaml_syntax, eval=TRUE, include=FALSE}
+## Validate YAML syntax - will stop rendering if YAML is invalid
+validate_yaml_syntax(file.path(root, "codecheck.yml"))
+```
+
+```{r check_certificate_id, eval=TRUE, include=FALSE}
+## Check if certificate identifier is set properly and try to update from GitHub
+## This will check if the certificate is a placeholder and attempt to retrieve
+## the actual certificate ID from GitHub issues matching the author names
+
+# Check if certificate is a placeholder
+yml_path <- file.path(root, "codecheck.yml")
+if (is_placeholder_certificate(yml_path)) {
+  message("CERTIFICATE ID NOT SET")
+
+  # Try to automatically retrieve and update certificate from GitHub
+  result <- update_certificate_from_github(
+    yml_file = yml_path,
+    issue_state = "open",
+    apply_update = FALSE  # Set to TRUE to automatically update
+  )
+
+  if (!is.null(result$certificate) && result$certificate != "") {
+    message("\n✓ Certificate found! To apply the update, run:")
+    message("\n  update_certificate_from_github(apply_update = TRUE)")
+    message("\nOr manually update codecheck.yml with certificate: ", result$certificate)
+  } else {
+    message("\nℹ No matching certificate found in GitHub issues.")
+    message("You may need to manually set the certificate identifier in codecheck.yml")
+  }
+}
+```
+
+```{r manifest, eval=TRUE, include=FALSE}
+metadata <- codecheck_metadata(root)
+manifest <- metadata$manifest
+
+dest_dir <- file.path(root, "codecheck", "outputs")
+## Create the outputs directory if missing
+if (!dir.exists(dest_dir) ) {
+  dir.create(dest_dir)
+}
+
+manifest_df <- copy_manifest_files(root, metadata,
+                                  dest_dir, keep_full_path = FALSE,
+                                  overwrite = FALSE
+                                  )
+# manifest_df <- list_manifest_files(root, metadata, dest_dir)
+```
+
+```{r validate_crossref, eval=TRUE, include=FALSE}
+## Validate metadata against CrossRef and ORCID metadata - will fail rendering on mismatch
+## Set strict = FALSE or remove this chunk if you want to skip validation
+##
+## ORCID name checks first try the authenticated ORCID API, then automatically
+## fall back to the public, unauthenticated ORCID API for records whose name
+## is publicly visible - so most checks work without any ORCID setup at all.
+## skip_on_auth_error only matters if BOTH lookups fail for a record (e.g. no
+## network access, or the record's name is not public); it is enabled below
+## so a fresh workspace always renders even in that case.
+validation_result <- validate_contents_references(
+  yml_file = file.path(root, "codecheck.yml"),
+  strict = TRUE
+  , skip_on_auth_error = TRUE
+)
+```
+
+```{r print_title, echo=FALSE, results='asis'}
+## The certificate title/subtitle depend on `metadata`, computed above from
+## codecheck.yml - unlike R Markdown, Quarto's knitr engine does not evaluate
+## inline `r` code inside a document's YAML metadata blocks, so the title
+## cannot be set dynamically via YAML here. It is instead emitted directly as
+## LaTeX, using the same \title/\subtitle/\maketitle commands pandoc's
+## title-block metadata would otherwise have produced.
+cat(sprintf("\\title{%s}\n", paste("CODECHECK certificate", metadata$certificate)))
+cat(sprintf("\\subtitle{%s}\n", codecheck:::as_latex_url(metadata$report)))
+cat("\\maketitle\n")
+```
+
+```{r codecheck_logo, echo=FALSE,results='asis'}
+latex_codecheck_logo()
+```
+
+```{r validate_certificate, echo=FALSE, results='asis'}
+## Validate certificate and display warning if placeholder, or if the
+## report DOI is a Zenodo concept DOI instead of a version-specific DOI
+## Set strict = TRUE to fail rendering if certificate is a placeholder
+## Set display_warning = FALSE to suppress the warning box in PDF output
+validate_certificate_for_rendering(
+  yml_file = file.path(root, "codecheck.yml"),
+  strict = FALSE,           # Set to TRUE to fail rendering
+  display_warning = TRUE    # Set to FALSE to hide warning in PDF
+)
+```
+
+```{r summary_metadata, echo=FALSE, results='asis'}
+latex_summary_of_metadata(metadata)
+```
+
+```{r summary_manifest, echo=FALSE, results='asis'}
+latex_summary_of_manifest(metadata, manifest_df, root)
+```
+
+# Summary
+
+This code was (not) straightforward to codecheck.
+[... ADD MORE INTERESTING FINDINGS HERE..]
+
+\clearpage
+
+# CODECHECKER notes
+
+```{r git_sha, echo=FALSE}
+gitInfo <- get_git_info(root)
+```
+
+The GitHub repo ...
+`r gitInfo`
+Code was written in ...
+I went through the following steps ...
+One hard problem was ...
+I added the following files ... using tools/methods ...
+
+This took ... minutes to complete on {a large workstation, my laptop}.
+
+## Recommendations
+
+I suggest to the authors to consider the following suggestions for their next publication or workflow:
+
+- ...
+
+(document here if any of the suggestions were taken up by the authors in the meantime - do not remove any, keep track of contributions via feedback)
+
+\clearpage
+
+# Manifest files
+
+```{r manifest_files, echo=FALSE, results="asis", width=100}
+render_manifest_files(manifest_df)
+```
+
+\clearpage
+
+## Acknowledgements
+
+I would like to thank ... for ... [promptly answering any
+queries/providing updates; assitance with X; ...].
+
+# Citing this document
+
+```{r, results='asis',echo=FALSE}
+cite_certificate(metadata)
+```
+
+# About CODECHECK
+
+This certificate confirms that the codechecker could independently
+reproduce the results of a computational analysis given the data and
+code from a third party.  A CODECHECK does not check whether the
+original computation analysis is correct.  However, as all materials
+required for the reproduction are freely available by following the
+links in this document, the reader can then study for themselves the
+code and data.
+
+## Multi-language code chunks
+
+Quarto can execute R, Python, and Julia code in the same document - see the
+[Quarto language guides](https://quarto.org/docs/computations/languages.html)
+for details. The R chunk below is a real, unevaluated (`eval: false`) knitr
+chunk. The Python and Julia snippets are shown as plain (non-executed) code
+blocks rather than `{python}`/`{julia}` engine chunks, since those engines
+need the `reticulate` or `JuliaCall` packages (and a Python/Julia
+installation) even to be parsed - not needed just to demonstrate the syntax.
+Use `{python}`/`{julia}` chunks instead if your report actually executes
+Python or Julia code.
+
+```{r}
+#| eval: false
+1 + 1
+```
+
+```python
+1 + 1
+```
+
+```julia
+1 + 1
+```
+
+# About this document
+
+This document was created using [Quarto](https://quarto.org/) using the
+[`codecheck`](https://github.com/codecheckers/codecheck) R package. See the
+[Quarto PDF basics](https://quarto.org/docs/output-formats/pdf-basics.html)
+and [PDF engine](https://quarto.org/docs/output-formats/pdf-engine.html)
+documentation for background on the PDF output produced here (via tinytex).
+`make codecheck.pdf` will regenerate the report file.
+
+```{r}
+sessionInfo()
+```
+
+```{r, include=FALSE, eval=FALSE}
+# handle Zenodo publication (alternative to codecheck-zenodo.R !)
+library("zen4R")
+zenodo <- ZenodoManager$new(token = zenodoToken) # assumes Zenodo token is configured via .Renviron
+record <- codecheck::get_or_create_zenodo_record(zenodo, codecheck::codecheck_metadata(root))
+record <- codecheck::upload_zenodo_metadata(zenodo, record, codecheck::codecheck_metadata(root))
+codecheck::upload_zenodo_certificate(zenodo = zenodo, record = record$id, certificate = file.path(root, "codecheck", "codecheck.pdf"))
+```
+
+```{r, include=FALSE, eval=FALSE}
+# render this document from the command line: quarto render codecheck.qmd --to pdf
+```
