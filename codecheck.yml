@@ -16,8 +16,8 @@ version: https://codecheck.org.uk/spec/config/1.0/
 # figure produces several sibling panels in the same figs/ directory.
 # ----------------------------------------------------------------------------
 manifest:
-- file: figs/fig1a.pdf
-  comment: "Fig 1 - spectral sensitivities & example signals (panels fig1a-fig1h)"
+- file: codecheck/outputs/fig1a.pdf
+  comment: "Fig 1 - spectral sensitivities and example signals (panels fig1a-fig1h)"
 - file: figs/fig2a.pdf
   comment: "Fig 2 - equal-luminance MacLeod-Boynton locus (panels fig2a-fig2c + inserts)"
 - file: figs/fig3a.pdf
@@ -29,15 +29,15 @@ manifest:
 - file: figs/fig4c.pdf
   comment: "Fig 4c - PSRM (photoreceptor signal reproduction) bar graph"
 - file: figs/fig5ai.pdf
-  comment: "Fig 5 - PSDM rod & melanopsin distortion (panels fig5ai-fig5cii)"
+  comment: "Fig 5 - PSDM rod and melanopsin distortion (panels fig5ai-fig5cii)"
 - file: figs/fig6a_box_CRT.pdf
   comment: "Fig 6 - PSDM per-display box/xy plots (CRT, LCD, DP variants)"
 - file: figs/fig7_LvsS_all.pdf
-  comment: "Fig 7 - equal-luminance excitation diagrams, full database + 3-primary displays (fig7_{LvsS,LvsI,IvsS}_{all,crt,lcd,dp})"
+  comment: "Fig 7 - equal-luminance excitation diagrams, full database + 3-primary displays (fig7)"
 - file: figs/fig8_LvsS_MPHDR.pdf
-  comment: "Fig 8 - equal-luminance excitation diagrams, 5-primary displays (fig8_{LvsS,LvsI,IvsS}_{MPHDR,Man,nb5p,bb5p,NZ})"
+  comment: "Fig 8 - equal-luminance excitation diagrams, 5-primary displays (fig8)"
 - file: figs/fig9a.pdf
-  comment: "Fig 9 - bit depth & tolerance analysis (fig9a, fig9b)"
+  comment: "Fig 9 - bit depth and tolerance analysis (fig9a, fig9b)"
 
 paper:
   title: "Beyond colour gamuts: Novel metrics for the reproduction of photoreceptor signals"
