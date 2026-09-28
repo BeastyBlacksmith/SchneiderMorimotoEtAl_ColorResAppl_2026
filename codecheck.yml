@@ -3,10 +3,11 @@
 # CODECHECK configuration file
 # Specification: https://codecheck.org.uk/spec/config/1.0/
 #
-# Requirements: MATLAB only (developed and tested with R2025b). No external
-# toolboxes are needed — the few Psychtoolbox colour utilities the code uses
-# are bundled under src/functions/psychtoolbox/ (see README and that folder's
-# NOTICE.md). Run `main` from the repository root to regenerate the manifest.
+# Requirements: MATLAB with the Statistics and Machine Learning Toolbox and
+# the Image Processing Toolbox (tested on macOS/R2025b and Ubuntu 24.04/R2026a).
+# The few Psychtoolbox colour utilities the code uses are bundled under
+# src/functions/psychtoolbox/ (see README and that folder's NOTICE.md).
+# Run `main` from the repository root to regenerate the manifest.
 version: https://codecheck.org.uk/spec/config/1.0/
 
 # ----------------------------------------------------------------------------
