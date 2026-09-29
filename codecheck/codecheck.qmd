@@ -132,11 +132,6 @@ latex_summary_of_metadata(metadata)
 latex_summary_of_manifest(metadata, manifest_df, root)
 ```
 
-# Summary
-
-This code was (not) straightforward to codecheck.
-[... ADD MORE INTERESTING FINDINGS HERE..]
-
 \clearpage
 
 # CODECHECKER notes
@@ -145,22 +140,26 @@ This code was (not) straightforward to codecheck.
 gitInfo <- get_git_info(root)
 ```
 
-The GitHub repo ...
+The GitHub repo
 `r gitInfo`
-Code was written in ...
-I went through the following steps ...
-One hard problem was ...
-I added the following files ... using tools/methods ...
+Code was written in Matlab.
+I went through the following steps:
+1. Installing Matlab
+2. Running `main()`
+3. Installing Statistics and Machine Learning Toolbox
+4. Running `main()`
+5. Installing Image Processing Toolbox
+6. Running `main()`
 
-This took ... minutes to complete on {a large workstation, my laptop}.
+Running `main()` took approx. 2 minutes to complete my laptop.
 
 ## Recommendations
 
 I suggest to the authors to consider the following suggestions for their next publication or workflow:
 
-- ...
+- Also document the free toolboxes used
 
-(document here if any of the suggestions were taken up by the authors in the meantime - do not remove any, keep track of contributions via feedback)
+These recommendations were already applied at the time of writing this report.
 
 \clearpage
 
@@ -174,8 +173,7 @@ render_manifest_files(manifest_df)
 
 ## Acknowledgements
 
-I would like to thank ... for ... [promptly answering any
-queries/providing updates; assitance with X; ...].
+I would like to thank Takuma Morimoto for promptly addressing any upcoming issues.
 
 # Citing this document
 
@@ -192,31 +190,6 @@ original computation analysis is correct.  However, as all materials
 required for the reproduction are freely available by following the
 links in this document, the reader can then study for themselves the
 code and data.
-
-## Multi-language code chunks
-
-Quarto can execute R, Python, and Julia code in the same document - see the
-[Quarto language guides](https://quarto.org/docs/computations/languages.html)
-for details. The R chunk below is a real, unevaluated (`eval: false`) knitr
-chunk. The Python and Julia snippets are shown as plain (non-executed) code
-blocks rather than `{python}`/`{julia}` engine chunks, since those engines
-need the `reticulate` or `JuliaCall` packages (and a Python/Julia
-installation) even to be parsed - not needed just to demonstrate the syntax.
-Use `{python}`/`{julia}` chunks instead if your report actually executes
-Python or Julia code.
-
-```{r}
-#| eval: false
-1 + 1
-```
-
-```python
-1 + 1
-```
-
-```julia
-1 + 1
-```
 
 # About this document
 

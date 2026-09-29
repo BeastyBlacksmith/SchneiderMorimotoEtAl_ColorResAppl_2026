@@ -107,6 +107,7 @@
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -221,6 +222,10 @@
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
 \hypersetup{
   colorlinks=true,
   linkcolor={blue},
@@ -238,7 +243,7 @@
 \title{CODECHECK certificate 2026-024}
 \maketitle
 
-\centerline{\includegraphics[width=4cm]{/home/schrist/.asdf/installs/r/4.3.2/lib/R/library/codecheck/extdata/codecheck_logo.pdf}}\vspace*{1cm}
+\centerline{\includegraphics[width=4cm]{/home/lufia/R/x86_64-pc-linux-gnu-library/4.5/codecheck/extdata/codecheck_logo.pdf}}\vspace*{1cm}
 
 \begin{center}
 \fcolorbox{red}{yellow}{\parbox{0.9\textwidth}{\centering
@@ -266,7 +271,9 @@ Title of checked publication & Beyond colour gamuts: Novel metrics for the repro
   Reference & \url{https://doi.org/10.1101/2021.02.27.433203} \\ 
   Codechecker(s) & Simon Christ \orcidicon{0000-0002-5866-1472}  \\ 
   Date of check &  \\ 
-  Summary & The code check was straightforward. Only the toolboxes "Statistics and Machine Learning" and "Image Processing" needed to be added in contrast to what was stated in the README. \\ 
+  Summary & The code check was straightforward. Only the toolboxes "Statistics and Machine Learning" and "Image Processing" needed to be added in contrast to what was stated in the README.
+However, some figures don't match the figures from the paper and the pictures for figures 2 and 8 are missing.
+Notably, the barplots fig4b and fig4c corresponding to figure 5 in the paper do have more categories than in the paper. \\ 
   Repository & \url{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction} \\ 
    \hline
 \end{tabular}
@@ -279,17 +286,17 @@ Title of checked publication & Beyond colour gamuts: Novel metrics for the repro
   \hline
 Output & Comment & Size (b) \\ 
   \hline
-\href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig1a.pdf}{\path{figs/fig1a.pdf}} & Fig 1 - spectral sensitivities & example signals (panels fig1a-fig1h) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig2a.pdf}{\path{figs/fig2a.pdf}} & Fig 2 - equal-luminance MacLeod-Boynton locus (panels fig2a-fig2c + inserts) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig3a.pdf}{\path{figs/fig3a.pdf}} & Fig 3 - display primaries (panels fig3a-fig3h) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig4a.png}{\path{figs/fig4a.png}} & Fig 4a - chromaticity reproduction diagram &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig4b.pdf}{\path{figs/fig4b.pdf}} & Fig 4b - chromaticity reproduction bar graph &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig4c.pdf}{\path{figs/fig4c.pdf}} & Fig 4c - PSRM (photoreceptor signal reproduction) bar graph &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig5ai.pdf}{\path{figs/fig5ai.pdf}} & Fig 5 - PSDM rod & melanopsin distortion (panels fig5ai-fig5cii) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig6a_box_CRT.pdf}{\path{figs/fig6a_box_CRT.pdf}} & Fig 6 - PSDM per-display box/xy plots (CRT, LCD, DP variants) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig7_LvsS_all.pdf}{\path{figs/fig7_LvsS_all.pdf}} & Fig 7 - equal-luminance excitation diagrams, full database + 3-primary displays (fig7_{LvsS,LvsI,IvsS}_{all,crt,lcd,dp}) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig8_LvsS_MPHDR.pdf}{\path{figs/fig8_LvsS_MPHDR.pdf}} & Fig 8 - equal-luminance excitation diagrams, 5-primary displays (fig8_{LvsS,LvsI,IvsS}_{MPHDR,Man,nb5p,bb5p,NZ}) &  \\ 
-  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig9a.pdf}{\path{figs/fig9a.pdf}} & Fig 9 - bit depth & tolerance analysis (fig9a, fig9b) &  \\ 
+\href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig1a.pdf}{\path{codecheck/outputs/fig1a.pdf}} & Fig 1 - spectral sensitivities and example signals (panels fig1a-fig1h) & 39685 \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig2a.pdf}{\path{figs/fig2a.pdf}} & Fig 2 - equal-luminance MacLeod-Boynton locus (panels fig2a-fig2c + inserts) & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig3a.pdf}{\path{figs/fig3a.pdf}} & Fig 3 - display primaries (panels fig3a-fig3h) & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig4a.png}{\path{figs/fig4a.png}} & Fig 4a - chromaticity reproduction diagram & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig4b.pdf}{\path{figs/fig4b.pdf}} & Fig 4b - chromaticity reproduction bar graph & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig4c.pdf}{\path{figs/fig4c.pdf}} & Fig 4c - PSRM (photoreceptor signal reproduction) bar graph & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig5ai.pdf}{\path{figs/fig5ai.pdf}} & Fig 5 - PSDM rod and melanopsin distortion (panels fig5ai-fig5cii) & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig6a_box_CRT.pdf}{\path{figs/fig6a_box_CRT.pdf}} & Fig 6 - PSDM per-display box/xy plots (CRT, LCD, DP variants) & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig7_LvsS_all.pdf}{\path{figs/fig7_LvsS_all.pdf}} & Fig 7 - equal-luminance excitation diagrams, full database + 3-primary displays (fig7) & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig8_LvsS_MPHDR.pdf}{\path{figs/fig8_LvsS_MPHDR.pdf}} & Fig 8 - equal-luminance excitation diagrams, 5-primary displays (fig8) & missing \\ 
+  \href{https://github.com/takuma929/metrics_photoreceptor_signal_reproduction/blob/master/codecheck/outputs/fig9a.pdf}{\path{figs/fig9a.pdf}} & Fig 9 - bit depth and tolerance analysis (fig9a, fig9b) & missing \\ 
    \hline
 \end{tabular}
 \caption{Summary of output files generated} 
@@ -305,7 +312,7 @@ INTERESTING FINDINGS HERE..{]}
 \section{CODECHECKER notes}\label{codechecker-notes}
 
 The GitHub repo \ldots{} This check is based on the commit
-\texttt{d1fcfb87a67a35a62011b873623d81abf5286c0f}. Code was written in
+\texttt{b34daa7be02f59d66053ed8397375c0c9f5bd09e}. Code was written in
 \ldots{} I went through the following steps \ldots{} One hard problem
 was \ldots{} I added the following files \ldots{} using tools/methods
 \ldots{}
@@ -334,10 +341,10 @@ feedback)
 
 \subsection{fig1a.pdf}\label{fig1a.pdf}
 
-\textbf{Comment:} Fig 1 - spectral sensitivities \& example signals
+\textbf{Comment:} Fig 1 - spectral sensitivities and example signals
 (panels fig1a-fig1h)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig1a.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 1 - spectral sensitivities and example signals (panels fig1a-fig1h)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig1a.pdf}}
 \clearpage 
 
 \subsection{fig2a.pdf}\label{fig2a.pdf}
@@ -345,28 +352,28 @@ feedback)
 \textbf{Comment:} Fig 2 - equal-luminance MacLeod-Boynton locus (panels
 fig2a-fig2c + inserts)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig2a.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 2 - equal-luminance MacLeod-Boynton locus (panels fig2a-fig2c + inserts)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig2a.pdf}}
 \clearpage 
 
 \subsection{fig3a.pdf}\label{fig3a.pdf}
 
 \textbf{Comment:} Fig 3 - display primaries (panels fig3a-fig3h)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig3a.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 3 - display primaries (panels fig3a-fig3h)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig3a.pdf}}
 \clearpage 
 
 \subsection{fig4a.png}\label{fig4a.png}
 
 \textbf{Comment:} Fig 4a - chromaticity reproduction diagram
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig4a.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 4a - chromaticity reproduction diagram}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig4a.png}}
 \clearpage 
 
 \subsection{fig4b.pdf}\label{fig4b.pdf}
 
 \textbf{Comment:} Fig 4b - chromaticity reproduction bar graph
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig4b.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 4b - chromaticity reproduction bar graph}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig4b.pdf}}
 \clearpage 
 
 \subsection{fig4c.pdf}\label{fig4c.pdf}
@@ -374,15 +381,15 @@ fig2a-fig2c + inserts)
 \textbf{Comment:} Fig 4c - PSRM (photoreceptor signal reproduction) bar
 graph
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig4c.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 4c - PSRM (photoreceptor signal reproduction) bar graph}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig4c.pdf}}
 \clearpage 
 
 \subsection{fig5ai.pdf}\label{fig5ai.pdf}
 
-\textbf{Comment:} Fig 5 - PSDM rod \& melanopsin distortion (panels
+\textbf{Comment:} Fig 5 - PSDM rod and melanopsin distortion (panels
 fig5ai-fig5cii)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig5ai.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 5 - PSDM rod and melanopsin distortion (panels fig5ai-fig5cii)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig5ai.pdf}}
 \clearpage 
 
 \subsection{fig6a\_box\_CRT.pdf}\label{fig6a_box_crt.pdf}
@@ -390,31 +397,31 @@ fig5ai-fig5cii)
 \textbf{Comment:} Fig 6 - PSDM per-display box/xy plots (CRT, LCD, DP
 variants)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig6a_box_CRT.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 6 - PSDM per-display box/xy plots (CRT, LCD, DP variants)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig6a_box_CRT.pdf}}
 \clearpage 
 
 \subsection{fig7\_LvsS\_all.pdf}\label{fig7_lvss_all.pdf}
 
 \textbf{Comment:} Fig 7 - equal-luminance excitation diagrams, full
-database + 3-primary displays
-(fig7\_\{LvsS,LvsI,IvsS\}\_\{all,crt,lcd,dp\})
+database + 3-primary displays (fig7)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig7_LvsS_all.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 7 - equal-luminance excitation diagrams, full database + 3-primary displays (fig7)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig7_LvsS_all.pdf}}
 \clearpage 
 
 \subsection{fig8\_LvsS\_MPHDR.pdf}\label{fig8_lvss_mphdr.pdf}
 
 \textbf{Comment:} Fig 8 - equal-luminance excitation diagrams, 5-primary
-displays (fig8\_\{LvsS,LvsI,IvsS\}\_\{MPHDR,Man,nb5p,bb5p,NZ\})
+displays (fig8)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig8_LvsS_MPHDR.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 8 - equal-luminance excitation diagrams, 5-primary displays (fig8)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig8_LvsS_MPHDR.pdf}}
 \clearpage 
 
 \subsection{fig9a.pdf}\label{fig9a.pdf}
 
-\textbf{Comment:} Fig 9 - bit depth \& tolerance analysis (fig9a, fig9b)
+\textbf{Comment:} Fig 9 - bit depth and tolerance analysis (fig9a,
+fig9b)
 
-\pandocbounded{\includegraphics[keepaspectratio]{./home/schrist/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig9a.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={Fig 9 - bit depth and tolerance analysis (fig9a, fig9b)}]{./home/lufia/projects/SchneiderMorimotoEtAl_ColorResAppl_2026/codecheck/outputs/fig9a.pdf}}
 \clearpage 
 
 \clearpage
@@ -486,18 +493,18 @@ file.
 \end{Shaded}
 
 \begin{verbatim}
-R version 4.3.2 (2023-10-31)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.5 LTS
+R version 4.5.2 (2025-10-31)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 26.04.1 LTS
 
 Matrix products: default
-BLAS:   /home/schrist/.asdf/installs/r/4.3.2/lib/R/lib/libRblas.so 
-LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3;  LAPACK version 3.10.0
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.1 
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.1;  LAPACK version 3.12.0
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=de_DE.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=de_DE.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [1] LC_CTYPE=de_DE.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=de_DE.UTF-8        LC_COLLATE=de_DE.UTF-8    
+ [5] LC_MONETARY=de_DE.UTF-8    LC_MESSAGES=de_DE.UTF-8   
  [7] LC_PAPER=de_DE.UTF-8       LC_NAME=C                 
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
 [11] LC_MEASUREMENT=de_DE.UTF-8 LC_IDENTIFICATION=C       
@@ -512,7 +519,7 @@ attached base packages:
 other attached packages:
 [1] tibble_3.3.1          xtable_1.8-8         
 [3] yaml_2.3.12           rprojroot_2.1.1      
-[5] knitr_1.52            codecheck_0.30.0.9000
+[5] knitr_1.52            codecheck_0.31.0.9000
 [7] parsedate_1.3.2       R.cache_0.17.0       
 [9] gh_1.6.1             
 
@@ -523,10 +530,10 @@ loaded via a namespace (and not attached):
 [10] fastmap_1.2.0     plyr_1.8.9        cellranger_1.1.0 
 [13] R.oo_1.27.1       jsonlite_2.0.0    R.utils_2.13.0   
 [16] whisker_0.4.1     crul_1.6.0        httr_1.4.9       
-[19] purrr_1.2.2       XML_3.99-0.24     httr2_1.3.0      
+[19] purrr_1.2.2       XML_3.99-0.25     httr2_1.3.0      
 [22] cli_3.6.6         pdftools_3.9.1    rlang_1.3.0      
 [25] R.methodsS3_1.8.2 gitcreds_0.1.2    withr_3.0.3      
-[28] cachem_1.1.0      otel_0.2.0        tools_4.3.2      
+[28] cachem_1.1.0      otel_0.2.0        tools_4.5.2      
 [31] memoise_2.0.1     dplyr_1.2.1       assertthat_0.2.1 
 [34] curl_8.0.0        vctrs_0.7.3       R6_2.6.1         
 [37] lifecycle_1.0.5   magick_2.9.1      git2r_0.36.2     
@@ -535,7 +542,7 @@ loaded via a namespace (and not attached):
 [46] pillar_1.11.1     glue_1.8.1        Rcpp_1.1.2       
 [49] xfun_0.61         tidyselect_1.2.1  keyring_1.4.1    
 [52] htmltools_0.5.9   rmarkdown_2.32    qpdf_1.4.1       
-[55] compiler_4.3.2    askpass_1.2.1     fauxpas_0.6.0    
+[55] compiler_4.5.2    askpass_1.2.1     fauxpas_0.6.0    
 [58] readxl_1.5.0.1   
 \end{verbatim}
 
