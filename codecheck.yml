@@ -11,34 +11,158 @@
 version: https://codecheck.org.uk/spec/config/1.0/
 
 # ----------------------------------------------------------------------------
-# Manifest: the output files the workflow (`main`) regenerates into figs/.
+# Manifest: the output files the workflow (`main`) regenerates into codecheck/outputs/.
 # Running `main` from the repository root rebuilds every file listed below.
 # One representative file is listed per paper figure / panel group; each
-# figure produces several sibling panels in the same figs/ directory.
+# figure produces several sibling panels in the same codecheck/outputs/ directory.
 # ----------------------------------------------------------------------------
 manifest:
 - file: codecheck/outputs/fig1a.pdf
-  comment: "Fig 1 - spectral sensitivities and example signals (panels fig1a-fig1h)"
-- file: figs/fig2a.pdf
-  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus (panels fig2a-fig2c + inserts)"
-- file: figs/fig3a.pdf
-  comment: "Fig 3 - display primaries (panels fig3a-fig3h)"
-- file: figs/fig4a.png
+  comment: "Fig 1 - spectral sensitivities 1"
+- file: codecheck/outputs/fig1b.pdf
+  comment: "Fig 1 - example signals 1"
+- file: codecheck/outputs/fig1c.pdf
+  comment: "Fig 1 - spectral sensitivities 2"
+- file: codecheck/outputs/fig1d.pdf
+  comment: "Fig 1 - example signals 2"
+- file: codecheck/outputs/fig1e_inserted.pdf
+  comment: "Fig 1 - inset of contrast for R and I"
+- file: codecheck/outputs/fig1e_inserted.pdf
+  comment: "Fig 1 - response bar chart 1"
+- file: codecheck/outputs/fig1e.pdf
+  comment: "Fig 1 - spectral sensitivities 3"
+- file: codecheck/outputs/fig1g.pdf
+  comment: "Fig 1 - example signals 3"
+- file: codecheck/outputs/fig1h.pdf
+  comment: "Fig 1 - response bar chart 2"
+- file: codecheck/outputs/fig2a.pdf
+  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus 1"
+- file: codecheck/outputs/fig2a_insert.pdf
+  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus inset 1"
+- file: codecheck/outputs/fig2b.pdf
+  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus 2"
+- file: codecheck/outputs/fig2b_insert.pdf
+  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus inset 2"
+- file: codecheck/outputs/fig2c.pdf
+  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus 3"
+- file: codecheck/outputs/fig2c_insert.pdf
+  comment: "Fig 2 - equal-luminance MacLeod-Boynton locus inset 3"
+- file: codecheck/outputs/fig3a.pdf
+  comment: "Fig 3a - display primaries"
+- file: codecheck/outputs/fig3b.pdf
+  comment: "Fig 3b - display primaries"
+- file: codecheck/outputs/fig3c.pdf
+  comment: "Fig 3c - display primaries"
+- file: codecheck/outputs/fig3d.pdf
+  comment: "Fig 3d - display primaries"
+- file: codecheck/outputs/fig3e.pdf
+  comment: "Fig 3e - display primaries"
+- file: codecheck/outputs/fig3f.pdf
+  comment: "Fig 3f - display primaries"
+- file: codecheck/outputs/fig3g.pdf
+  comment: "Fig 3g - display primaries"
+- file: codecheck/outputs/fig3h.pdf
+  comment: "Fig 3h - display primaries"
+- file: codecheck/outputs/fig4a.png
   comment: "Fig 4a - chromaticity reproduction diagram"
-- file: figs/fig4b.pdf
+- file: codecheck/outputs/fig4b.pdf
   comment: "Fig 4b - chromaticity reproduction bar graph"
-- file: figs/fig4c.pdf
+- file: codecheck/outputs/fig4c.pdf
   comment: "Fig 4c - PSRM (photoreceptor signal reproduction) bar graph"
-- file: figs/fig5ai.pdf
-  comment: "Fig 5 - PSDM rod and melanopsin distortion (panels fig5ai-fig5cii)"
-- file: figs/fig6a_box_CRT.pdf
-  comment: "Fig 6 - PSDM per-display box/xy plots (CRT, LCD, DP variants)"
-- file: figs/fig7_LvsS_all.pdf
-  comment: "Fig 7 - equal-luminance excitation diagrams, full database + 3-primary displays (fig7)"
-- file: figs/fig8_LvsS_MPHDR.pdf
-  comment: "Fig 8 - equal-luminance excitation diagrams, 5-primary displays (fig8)"
-- file: figs/fig9a.pdf
-  comment: "Fig 9 - bit depth and tolerance analysis (fig9a, fig9b)"
+- file: codecheck/outputs/fig5ai.pdf
+  comment: "Fig 5a - PSDM rod and melanopsin distortion 1"
+- file: codecheck/outputs/fig5aii.pdf
+  comment: "Fig 5a - PSDM rod and melanopsin distortion 2"
+- file: codecheck/outputs/fig5bi.pdf
+  comment: "Fig 5b - PSDM rod and melanopsin distortion 1"
+- file: codecheck/outputs/fig5bii.pdf
+  comment: "Fig 5b - PSDM rod and melanopsin distortion 2"
+- file: codecheck/outputs/fig5ci.pdf
+  comment: "Fig 5c - PSDM rod and melanopsin distortion 1"
+- file: codecheck/outputs/fig5cii.pdf
+  comment: "Fig 5c - PSDM rod and melanopsin distortion 2"
+- file: codecheck/outputs/fig6a_box_CRT.pdf
+  comment: "Fig 6a - PSDM box plot CRT"
+- file: codecheck/outputs/fig6a_box_DP.pdf
+  comment: "Fig 6a - PSDM box plot DP"
+- file: codecheck/outputs/fig6a_box_LCD.pdf
+  comment: "Fig 6a - PSDM box plot LCD"
+- file: codecheck/outputs/fig6a_xy_CRT.pdf
+  comment: "Fig 6a - PSDM xy plot CRT"
+- file: codecheck/outputs/fig6a_xy_DP.pdf
+  comment: "Fig 6a - PSDM xy plot DP"
+- file: codecheck/outputs/fig6a_xy_LCD.pdf
+  comment: "Fig 6a - PSDM xy plot LCD"
+- file: codecheck/outputs/fig6b_box_CRT.pdf
+  comment: "Fig 6b - PSDM box plot CRT"
+- file: codecheck/outputs/fig6b_box_DP.pdf
+  comment: "Fig 6b - PSDM box plot DP"
+- file: codecheck/outputs/fig6b_box_LCD.pdf
+  comment: "Fig 6b - PSDM box plot LCD"
+- file: codecheck/outputs/fig6b_xy_CRT.pdf
+  comment: "Fig 6b - PSDM xy plot CRT"
+- file: codecheck/outputs/fig6b_xy_DP.pdf
+  comment: "Fig 6b - PSDM xy plot DP"
+- file: codecheck/outputs/fig6b_xy_LCD.pdf
+  comment: "Fig 6b - PSDM xy plot LCD"
+- file: codecheck/outputs/fig7_LvsS_all.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, full database"
+- file: codecheck/outputs/fig7_LvsS_crt.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, CRT"
+- file: codecheck/outputs/fig7_LvsS_dp.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, DP"
+- file: codecheck/outputs/fig7_LvsS_lcd.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, LCD"
+- file: codecheck/outputs/fig7_LvsI_all.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, full database"
+- file: codecheck/outputs/fig7_LvsI_crt.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, CRT"
+- file: codecheck/outputs/fig7_LvsI_dp.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, DP"
+- file: codecheck/outputs/fig7_LvsI_lcd.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, LCD"
+- file: codecheck/outputs/fig7_IvsS_all.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, full database"
+- file: codecheck/outputs/fig7_IvsS_crt.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, CRT"
+- file: codecheck/outputs/fig7_IvsS_dp.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, DP"
+- file: codecheck/outputs/fig7_IvsS_lcd.pdf
+  comment: "Fig 7 - equal-luminance excitation diagrams, LCD"
+- file: codecheck/outputs/fig8_LvsS_MPHDR.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, MPHDR"
+- file: codecheck/outputs/fig8_LvsS_Man.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, Man"
+- file: codecheck/outputs/fig8_LvsS_nb5p.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, np5p"
+- file: codecheck/outputs/fig8_LvsS_bb5p.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, bb5p"
+- file: codecheck/outputs/fig8_IvsS_NZ.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, NZ"
+- file: codecheck/outputs/fig8_IvsS_MPHDR.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, MPHDR"
+- file: codecheck/outputs/fig8_IvsS_Man.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, Man"
+- file: codecheck/outputs/fig8_IvsS_nb5p.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, np5p"
+- file: codecheck/outputs/fig8_IvsS_bb5p.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, bb5p"
+- file: codecheck/outputs/fig8_IvsS_NZ.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, NZ"
+- file: codecheck/outputs/fig8_LvsI_MPHDR.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, MPHDR"
+- file: codecheck/outputs/fig8_LvsI_Man.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, Man"
+- file: codecheck/outputs/fig8_LvsI_nb5p.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, np5p"
+- file: codecheck/outputs/fig8_LvsI_bb5p.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, bb5p"
+- file: codecheck/outputs/fig8_LvsI_NZ.pdf
+  comment: "Fig 8 - equal-luminance excitation diagrams, NZ"
+- file: codecheck/outputs/fig9a.pdf
+  comment: "Fig 9 - bit depth"
+- file: codecheck/outputs/fig9b.pdf
+  comment: "Fig 9 - tolerance analysis"
 
 paper:
   title: "Beyond colour gamuts: Novel metrics for the reproduction of photoreceptor signals"
@@ -66,9 +190,8 @@ codechecker:
 - name: Simon Christ
   ORCID: 0000-0002-5866-1472
 report:
-check_time:
+check_time: 29.09.2026
 certificate: 2026-024
 summary: |
   The code check was straightforward. Only the toolboxes "Statistics and Machine Learning" and "Image Processing" needed to be added in contrast to what was stated in the README.
-  However, some figures don't match the figures from the paper and the pictures for figures 2 and 8 are missing.
-  Notably, the barplots fig4b and fig4c corresponding to figure 5 in the paper do have more categories than in the paper.
+  Also the preprint was not up-to-date with the code of the repository but the authors provided the current version upon request.
